@@ -123,12 +123,20 @@ pip install -r requirements.txt
 
 #### Option 1: Web Interface (Streamlit) - Recommended 🌐
 ```bash
+# Make sure you're in the project_01 directory
+cd project_01
+
+# Run the Streamlit app
 streamlit run app.py
 ```
-This will open the interactive web interface in your default browser at `http://localhost:8501`
+✨ This will open the interactive web interface in your default browser at `http://localhost:8501`
 
 #### Option 2: Command-Line Interface (CLI) 🖥️
 ```bash
+# Make sure you're in the project_01 directory
+cd project_01
+
+# Run the CLI chatbot
 python main.py
 ```
 
