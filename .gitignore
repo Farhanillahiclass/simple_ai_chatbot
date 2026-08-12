@@ -128,3 +128,27 @@ dmypy.json
 
 # Streamlit
 .streamlit/
+
+# Guide and Documentation Files (for local reference only)
+FINAL_PUSH_AND_RUN.txt
+FIX_COMPLETE_READ_ME.txt
+FIX_GIT_ERROR.txt
+GITHUB_COMMANDS.txt
+GITHUB_PUSH_AND_RUN.txt
+GITHUB_SETUP.md
+MANUAL_GITHUB_COMMANDS.txt
+PROJECT_SUMMARY.md
+PUSH_AND_RUN_QUICK.txt
+QUICKSTART.md
+SIMPLE_UPLOAD_GUIDE.txt
+START_HERE_GITHUB_UPLOAD.md
+00_START_HERE.md
+CHANGELOG.md
+COMMAND_CARD.txt
+CONTRIBUTING.md
+
+# Setup and Upload Scripts
+setup.sh
+setup.bat
+upload-to-github.ps1
+upload-to-github.bat
