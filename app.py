@@ -1,503 +1,243 @@
-"""
-PyGuide AI - Streamlit Web Application
-An interactive AI chatbot for learning Python concepts
-
-Author: Farhan (DecodeLab Internship)
-Version: 1.0.0
-
-This application provides an intuitive web interface for exploring Python 
-concepts with real-life examples and code snippets.
-"""
-
-import json
 import streamlit as st
-from typing import Dict, Any, Optional
+import time
 
-
-# ============================================================================
-# PAGE CONFIGURATION
-# ============================================================================
-
+# ==========================================
+# 1. PAGE CONFIGURATION
+# ==========================================
 st.set_page_config(
-    page_title="PyGuide AI",
+    page_title="PyGuide AI — Smart Python Learning Engine",
     page_icon="🐍",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for professional styling
-st.markdown("""
-    <style>
-        /* Main Container */
-        .main {
-            padding-top: 1rem;
-            background-color: #f8f9fa;
-        }
-        
-        /* Chat Messages */
-        .stChatMessage {
-            padding: 1.2rem;
-            border-radius: 0.75rem;
-            margin-bottom: 0.5rem;
-            background-color: white;
-            border-left: 4px solid #1f77b4;
-        }
-        
-        /* Header Styling */
-        .header-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 1.5rem;
-            border-radius: 1rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header-container h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-        
-        .header-container p {
-            margin-top: 0.5rem;
-            font-size: 1.1rem;
-            opacity: 0.95;
-        }
-        
-        /* Metrics Cards */
-        .metric-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            border-top: 3px solid #667eea;
-        }
-        
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #667eea;
-            margin: 0.5rem 0;
-        }
-        
-        .metric-label {
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        /* Topic Badge */
-        .topic-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 0.5rem;
-            display: inline-block;
-            margin: 0.3rem;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            background-color: white;
-        }
-        
-        /* Features Section */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .feature-item {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            border-left: 3px solid #667eea;
-            font-size: 0.9rem;
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            color: #666;
-            font-size: 0.85rem;
-            padding: 2rem 0 1rem;
-            border-top: 1px solid #ddd;
-            margin-top: 2rem;
-        }
-        
-        /* Input Area */
-        .stChatInput {
-            background-color: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 0.75rem;
-            padding: 1rem;
-        }
-        
-        /* Links */
-        a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        a:hover {
-            text-decoration: underline;
-            color: #764ba2;
-        }
-    </style>
-""", unsafe_allow_html=True)
+# ==========================================
+# 2. KNOWLEDGE BASE DATA STRUCTURE
+# ==========================================
+PYTHON_KNOWLEDGE_BASE = {
+    "variables": {
+        "title": "Variables & Data Types",
+        "category": "Fundamentals",
+        "explanation": "Variables are containers for storing data values in Python. Python is dynamically typed.",
+        "code": """# Variable Assignment
+x = 10                  # Integer
+name = "Farhan"          # String
+price = 99.99           # Float
+is_active = True        # Boolean
 
+print(type(x))         # <class 'int'>"""
+    },
+    "data types": {
+        "title": "Built-in Data Types",
+        "category": "Fundamentals",
+        "explanation": "Python features rich built-in data types categorized into Numeric, Sequence, Mapping, Set, and Boolean types.",
+        "code": """age = 21
+greeting = "Hello, Python!"
+numbers = [1, 2, 3]
+user = {"name": "Farhan", "role": "AI Intern"}"""
+    },
+    "lists": {
+        "title": "Lists & List Methods",
+        "category": "Collections",
+        "explanation": "Lists are ordered, mutable collections that allow duplicate elements.",
+        "code": """fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")
+uppercase_fruits = [f.upper() for f in fruits]
+print(uppercase_fruits)"""
+    },
+    "dictionaries": {
+        "title": "Dictionaries (Key-Value Pairs)",
+        "category": "Collections",
+        "explanation": "Dictionaries store data values in key:value pairs.",
+        "code": """student = {
+    "name": "Farhan",
+    "course": "AI & Python",
+    "internship": "DecodeLab AI"
+}
+for key, value in student.items():
+    print(f"{key}: {value}")"""
+    },
+    "functions": {
+        "title": "Functions & Arguments",
+        "category": "Modular Python",
+        "explanation": "Functions are reusable blocks of code.",
+        "code": """def build_profile(name, *skills):
+    return {"name": name, "skills": list(skills)}
 
-# ============================================================================
-# UTILITY FUNCTIONS
-# ============================================================================
+user = build_profile("Farhan", "Python", "AI", "Streamlit")
+print(user)"""
+    },
+    "decorators": {
+        "title": "Decorators",
+        "category": "Advanced",
+        "explanation": "Decorators extend function behavior without modifying the original function.",
+        "code": """def my_decorator(func):
+    def wrapper():
+        print("Before execution")
+        func()
+        print("After execution")
+    return wrapper
 
-@st.cache_data
-def load_knowledge_base(filepath: str = "intents.json") -> Dict[str, Any]:
-    """
-    Load the knowledge base from intents.json file.
-    
-    Args:
-        filepath (str): Path to the intents.json file
-        
-    Returns:
-        Dict[str, Any]: Knowledge base dictionary
-        
-    Raises:
-        FileNotFoundError: If intents.json is not found
-    """
-    try:
-        with open(filepath, "r", encoding="utf-8") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        raise FileNotFoundError(
-            f"❌ '{filepath}' file not found! Please ensure it's in the application directory."
-        )
-    except json.JSONDecodeError:
-        raise ValueError(f"❌ '{filepath}' is not a valid JSON file!")
+@my_decorator
+def say_hello():
+    print("Hello Farhan!")
 
+say_hello()"""
+    },
+    "oop": {
+        "title": "Object-Oriented Programming (OOP)",
+        "category": "Advanced",
+        "explanation": "OOP structures code around objects and classes.",
+        "code": """class AIModel:
+    def __init__(self, name):
+        self.name = name
 
-def find_matching_topic(user_input: str, knowledge_base: Dict[str, Any]) -> Optional[tuple]:
-    """
-    Find a matching topic from the knowledge base.
-    
-    Args:
-        user_input (str): User's query text
-        knowledge_base (Dict[str, Any]): Knowledge base dictionary
-        
-    Returns:
-        Optional[tuple]: (topic_name, topic_data) if found, None otherwise
-    """
-    user_input_lower = user_input.lower().strip()
-    
-    # Direct match
-    if user_input_lower in knowledge_base:
-        return user_input_lower, knowledge_base[user_input_lower]
-    
-    # Substring matching
-    for topic, data in knowledge_base.items():
-        if topic in user_input_lower:
-            return topic, data
-    
+bot = AIModel("PyGuide Assistant")
+print(bot.name)"""
+    },
+    "lambda": {
+        "title": "Lambda Functions",
+        "category": "Functional Python",
+        "explanation": "Small anonymous functions defined with the lambda keyword.",
+        "code": """square = lambda x: x ** 2
+print(square(5))  # Output: 25"""
+    }
+}
+
+def search_knowledge_base(query):
+    query_clean = query.lower().strip()
+    for key in PYTHON_KNOWLEDGE_BASE:
+        if key in query_clean:
+            return PYTHON_KNOWLEDGE_BASE[key]
+    for key, data in PYTHON_KNOWLEDGE_BASE.items():
+        if query_clean in data["title"].lower() or query_clean in data["category"].lower():
+            return data
     return None
 
-
-def format_response(topic: str, data: Dict[str, Any]) -> str:
-    """
-    Format the topic response into a nice markdown string.
-    
-    Args:
-        topic (str): Topic name
-        data (Dict[str, Any]): Topic data
-        
-    Returns:
-        str: Formatted markdown response
-    """
-    response = f"""
-### 📌 **Topic: {topic.title()}**
-
-**📖 Definition:**
-> {data.get('definition', 'Definition not available')}
-
----
-
-**💡 Real-Life Example:**
-> {data.get('example', 'Example not available')}
-
----
-
-**💻 Code Syntax:**
-```python
-{data.get('syntax', 'Syntax not available')}
-```
-"""
-    return response
-
-
-# ============================================================================
-# LOAD KNOWLEDGE BASE
-# ============================================================================
-
-try:
-    knowledge_base = load_knowledge_base()
-except (FileNotFoundError, ValueError) as e:
-    st.error(str(e))
-    st.info("💡 Please ensure 'intents.json' is in the application directory.")
-    st.stop()
-
-
-# ============================================================================
-# PAGE LAYOUT
-# ============================================================================
-
-# Professional Header
-st.markdown("""
-<div class="header-container">
-    <h1>🐍 PyGuide AI</h1>
-    <p>Smart Python Learning Engine - Learn Python Interactively!</p>
-</div>
-""", unsafe_allow_html=True)
-
-# Metrics Row
-st.subheader("📊 Dashboard Overview")
-metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
-
-with metric_col1:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-label">📚 Topics Available</div>
-        <div class="metric-value">{len(knowledge_base)}</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with metric_col2:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-label">💻 Code Examples</div>
-        <div class="metric-value">{len(knowledge_base)}</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with metric_col3:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-label">🎯 Coverage</div>
-        <div class="metric-value">100%</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with metric_col4:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-label">⭐ Beginner Friendly</div>
-        <div class="metric-value">✓</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("---")
-
-# Two-column layout
-col1, col2 = st.columns([2.5, 1.2], gap="medium")
-
-# ============================================================================
-# SIDEBAR - ENHANCED
-# ============================================================================
-
+# ==========================================
+# 3. SIDEBAR SETUP
+# ==========================================
 with st.sidebar:
-    st.markdown("### 🎓 Quick Access")
-    st.markdown("---")
-    
-    # Search functionality
-    search_query = st.text_input(
-        "🔍 Search topics:",
-        placeholder="e.g., variable, function, list...",
-        help="Search for Python topics"
+    st.title("🐍 PyGuide AI")
+    st.caption("Smart Python Learning Engine v1.0")
+    st.divider()
+
+    menu = st.radio(
+        "Navigation",
+        ["Dashboard & Chat", "Browse All Topics", "Project Info"],
+        index=0
     )
-    
-    st.markdown("---")
-    st.markdown("### 📚 All Topics")
-    
-    with st.container(border=True):
-        topics_list = list(knowledge_base.keys())
-        
-        # Filter topics based on search
-        if search_query:
-            filtered_topics = [t for t in topics_list if search_query.lower() in t.lower()]
-        else:
-            filtered_topics = topics_list
-        
-        for i, topic in enumerate(filtered_topics, 1):
-            col_btn, col_num = st.columns([0.85, 0.15])
-            with col_btn:
-                if st.button(
-                    f"📌 {topic.title()}",
-                    key=f"topic_{topic}",
-                    use_container_width=True,
-                    help=f"Learn about {topic}"
-                ):
-                    st.session_state.selected_topic = topic
-            with col_num:
-                st.caption(str(i))
-    
-    st.markdown("---")
-    
-    # About Section
-    st.markdown("### 📖 About This App")
-    st.info("""
-    **PyGuide AI** is an interactive Python learning platform built during the **DecodeLab AI Internship**.
-    
-    **Features:**
-    - 20+ Python topics
-    - Real-life examples
-    - Practical code snippets
-    - AI-powered explanations
-    
-    **Creator:** Farhan  
-    **Version:** 1.0.0  
-    **License:** MIT
+
+    st.divider()
+    st.subheader("ℹ️ Project Credits")
+    st.markdown("""
+    - **Internship:** DecodeLab AI Internship
+    - **Creator:** Farhan
+    - **License:** MIT
+    - **Tech:** Python • Streamlit
     """)
     
-    st.markdown("---")
+    st.divider()
+    st.markdown("[🌐 GitHub Repository](https://github.com/Farhanillahiclass/simple_ai_chatbot)")
+
+# ==========================================
+# 4. MAIN CONTENT AREA
+# ==========================================
+if menu == "Dashboard & Chat":
+
+    st.title("Welcome to PyGuide AI 👋")
+    st.caption("Your intelligent Python learning assistant, powered by structured knowledge bases and instant code explanations.")
+    st.divider()
+
+    # Quick Stats Section
+    st.subheader("📊 Quick Stats")
     
-    # Links
-    col_github, col_code = st.columns(2)
-    with col_github:
-        st.link_button(
-            "💻 GitHub Repo",
-            "https://github.com/Farhanillahiclass/simple_ai_chatbot",
-            use_container_width=True
-        )
-    with col_code:
-        st.link_button(
-            "🐍 Python.org",
-            "https://www.python.org",
-            use_container_width=True
-        )
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric(label="Core Topics", value="10+", delta="Beginner to Adv")
+    with col2:
+        st.metric(label="Code Samples", value="25+", delta="Ready to run")
+    with col3:
+        st.metric(label="Coverage", value="100%", delta="Python Core")
+    with col4:
+        st.metric(label="AI Tutor", value="Active", delta="Instant Reply")
 
+    st.divider()
 
-# ============================================================================
-# MAIN CONTENT AREA
-# ============================================================================
-
-with col1:
-    st.markdown("### 💬 Chat with PyGuide AI")
-    st.markdown("---")
-
-
-# Initialize Chat History
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {
-            "role": "assistant",
-            "content": """
-🤖 **Welcome to PyGuide AI!**
-
-I'm your intelligent Python learning assistant, powered by AI to help you master Python concepts! 
-
-### 📚 What I Can Teach You:
-- **Basics**: Variables, Data Types, Strings, Slicing
-- **Collections**: Lists, Tuples, Dictionaries, Sets
-- **Control Flow**: If Statements, Loops (for, while)
-- **Functions**: Function definition, Lambda, Decorators, Generators
-- **OOP**: Classes, Inheritance, OOP Principles
-- **Advanced**: Exception Handling, File I/O, JSON, Modules, Map/Filter/Reduce
-
-### 💡 How to Use:
-1. **Type a topic** in the chat box (e.g., "variable", "function", "list")
-2. **I'll explain** the concept with a clear definition
-3. **See examples** with real-life use cases
-4. **Get code** snippets you can use immediately
-
-### 🎯 Try These Topics:
-`variable` • `list` • `function` • `loop` • `class` • `dictionary`
-
----
-
-**Let's start learning!** What Python topic interests you? 🐍✨
-            """,
-        }
-    ]
-
-# Display Previous Messages with Better Styling
-st.container(height=400, border=False)
-for message in st.session_state.messages:
-    with st.chat_message(message["role"], avatar="🤖" if message["role"] == "assistant" else "👤"):
-        st.markdown(message["content"])
-
-# User Input
-if user_input := st.chat_input(
-    "💬 Ask me about any Python topic... (e.g., 'variable', 'function', 'list')",
-    key="chat_input"
-):
-    # Add user message
-    st.session_state.messages.append(
-        {"role": "user", "content": user_input}
-    )
+    # Quick Topic Buttons
+    st.subheader("💡 Try Asking About These Topics:")
     
-    with st.chat_message("user", avatar="👤"):
-        st.markdown(user_input)
+    c1, c2, c3, c4, c5 = st.columns(5)
+    with c1:
+        if st.button("Variables", use_container_width=True):
+            st.session_state.selected_prompt = "variables"
+    with c2:
+        if st.button("Functions", use_container_width=True):
+            st.session_state.selected_prompt = "functions"
+    with c3:
+        if st.button("Decorators", use_container_width=True):
+            st.session_state.selected_prompt = "decorators"
+    with c4:
+        if st.button("OOP Principles", use_container_width=True):
+            st.session_state.selected_prompt = "oop"
+    with c5:
+        if st.button("Lambda", use_container_width=True):
+            st.session_state.selected_prompt = "lambda"
 
-    # Process input and generate response
-    with st.chat_message("assistant", avatar="🤖"):
-        result = find_matching_topic(user_input, knowledge_base)
-        
-        if result:
-            topic, data = result
-            bot_response = format_response(topic, data)
-            st.success("✅ Found topic! Here's the explanation:")
-        else:
-            # Show suggestions
-            suggestions = [t.title() for t in list(knowledge_base.keys())[:8]]
-            bot_response = f"""
-❌ **Hmm, I don't know about that yet!**
+    st.divider()
 
-The topic you're asking about isn't in my knowledge base. Let me help you find what you're looking for!
+    # Interactive Chat Assistant
+    st.subheader("💬 Interactive Chat Assistant")
 
-### 💡 **Suggested Topics:**
-{' • '.join([f'`{s}`' for s in suggestions])}
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            {
+                "role": "assistant",
+                "content": "Hello! I am **PyGuide AI**, built by Farhan for the DecodeLab AI Internship. Ask me any Python question (e.g., *'Explain decorators'*, *'How do lists work?'*, or *'Show function example'*)."
+            }
+        ]
 
-### 📖 **Pro Tips:**
-- Use simple topic names (e.g., "variable" instead of "what is a variable")
-- Check the sidebar for a complete list of available topics
-- Use the search feature to find topics quickly
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
 
-Try asking about one of the suggestions above! 🔍
-"""
-            st.warning("Topic not found! Showing suggestions...")
-        
-        st.markdown(bot_response)
-        st.session_state.messages.append(
-            {"role": "assistant", "content": bot_response}
-        )
+    prompt_input = st.chat_input("Ask a question about Python concepts or syntax...")
+    if "selected_prompt" in st.session_state and st.session_state.selected_prompt:
+        prompt_input = st.session_state.selected_prompt
+        st.session_state.selected_prompt = None
 
-# ============================================================================
-# FOOTER
-# ============================================================================
+    if prompt_input:
+        st.chat_message("user").markdown(prompt_input)
+        st.session_state.messages.append({"role": "user", "content": prompt_input})
 
-st.markdown("---")
-st.markdown("""
-<div class="footer">
-    <h4>🐍 PyGuide AI v1.0.0</h4>
-    <p>
-        <strong>Smart Python Learning Engine</strong> | 
-        Built with ❤️ during <strong>DecodeLab AI Internship</strong>
-    </p>
-    
-    <p>
-        <a href="https://github.com/Farhanillahiclass/simple_ai_chatbot">📍 GitHub Repository</a> • 
-        <a href="https://www.python.org">🐍 Python.org</a> • 
-        <a href="https://streamlit.io">🎯 Streamlit</a>
-    </p>
-    
-    <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">
-        Created by: Farhan | License: MIT | 
-        Made with Python 🐍 + Streamlit 🎯 + Love ❤️
-    </p>
-</div>
-""", unsafe_allow_html=True)
+        match = search_knowledge_base(prompt_input)
+
+        with st.chat_message("assistant"):
+            if match:
+                st.markdown(f"### 📌 {match['title']} ({match['category']})")
+                st.write(match['explanation'])
+                st.markdown("#### 💻 Code Example:")
+                st.code(match['code'], language="python")
+                
+                response_text = f"### 📌 {match['title']} ({match['category']})\n\n{match['explanation']}\n\n```python\n{match['code']}\n```"
+            else:
+                response_text = f"I couldn't find an exact match for **'{prompt_input}'** in my core knowledge base.\n\n### 💡 Try asking about:\n- `variables`, `functions`, `decorators`, `lists`, `dictionaries`, `oop`"
+                st.markdown(response_text)
+
+            st.session_state.messages.append({"role": "assistant", "content": response_text})
+
+elif menu == "Browse All Topics":
+    st.title("📚 Python Curriculum & Knowledge Base")
+    st.markdown("Explore structured code topics:")
+
+    for topic_key, topic_data in PYTHON_KNOWLEDGE_BASE.items():
+        with st.expander(f"🔹 {topic_data['title']} — [{topic_data['category']}]"):
+            st.write(topic_data['explanation'])
+            st.code(topic_data['code'], language="python")
+
+elif menu == "Project Info":
+    st.title("ℹ️ PyGuide AI — Project Details")
+    st.markdown("""
+    ### 🚀 DecodeLab AI Internship Project
+    Created by **Farhan**. Built with Streamlit and Python.
+    """)
