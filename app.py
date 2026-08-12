@@ -25,23 +25,130 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better styling
+# Custom CSS for professional styling
 st.markdown("""
     <style>
+        /* Main Container */
         .main {
-            padding-top: 2rem;
+            padding-top: 1rem;
+            background-color: #f8f9fa;
         }
+        
+        /* Chat Messages */
         .stChatMessage {
+            padding: 1.2rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.5rem;
+            background-color: white;
+            border-left: 4px solid #1f77b4;
+        }
+        
+        /* Header Styling */
+        .header-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .header-container p {
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        /* Metrics Cards */
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            border-top: 3px solid #667eea;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin: 0.5rem 0;
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Topic Badge */
+        .topic-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            margin: 0.3rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .feature-item {
+            background: white;
             padding: 1rem;
             border-radius: 0.5rem;
+            border-left: 3px solid #667eea;
+            font-size: 0.9rem;
         }
-        .topic-badge {
-            background-color: #1f77b4;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            display: inline-block;
-            margin: 0.25rem;
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            padding: 2rem 0 1rem;
+            border-top: 1px solid #ddd;
+            margin-top: 2rem;
+        }
+        
+        /* Input Area */
+        .stChatInput {
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+        
+        /* Links */
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+            color: #764ba2;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -149,100 +256,248 @@ except (FileNotFoundError, ValueError) as e:
 # PAGE LAYOUT
 # ============================================================================
 
-# Header Section
-st.title("🐍 PyGuide AI: Smart Python Learning Engine")
-st.caption(
-    "Learn Python concepts interactively with real-life examples and code snippets. "
-    "Built as part of DecodeLab AI Internship."
-)
+# Professional Header
+st.markdown("""
+<div class="header-container">
+    <h1>🐍 PyGuide AI</h1>
+    <p>Smart Python Learning Engine - Learn Python Interactively!</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Metrics Row
+st.subheader("📊 Dashboard Overview")
+metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+
+with metric_col1:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">📚 Topics Available</div>
+        <div class="metric-value">{len(knowledge_base)}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with metric_col2:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">💻 Code Examples</div>
+        <div class="metric-value">{len(knowledge_base)}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with metric_col3:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">🎯 Coverage</div>
+        <div class="metric-value">100%</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with metric_col4:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">⭐ Beginner Friendly</div>
+        <div class="metric-value">✓</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("---")
 
 # Two-column layout
-col1, col2 = st.columns([2, 1], gap="medium")
+col1, col2 = st.columns([2.5, 1.2], gap="medium")
 
-with col2:
-    st.subheader("📚 Topics Explorer")
+# ============================================================================
+# SIDEBAR - ENHANCED
+# ============================================================================
+
+with st.sidebar:
+    st.markdown("### 🎓 Quick Access")
     st.markdown("---")
+    
+    # Search functionality
+    search_query = st.text_input(
+        "🔍 Search topics:",
+        placeholder="e.g., variable, function, list...",
+        help="Search for Python topics"
+    )
+    
+    st.markdown("---")
+    st.markdown("### 📚 All Topics")
+    
     with st.container(border=True):
-        st.markdown(f"**Total Topics:** {len(knowledge_base)}")
-        st.markdown("**Available Topics:**")
-        for i, topic in enumerate(knowledge_base.keys(), 1):
-            st.markdown(f"  {i}. `{topic.title()}`")
+        topics_list = list(knowledge_base.keys())
+        
+        # Filter topics based on search
+        if search_query:
+            filtered_topics = [t for t in topics_list if search_query.lower() in t.lower()]
+        else:
+            filtered_topics = topics_list
+        
+        for i, topic in enumerate(filtered_topics, 1):
+            col_btn, col_num = st.columns([0.85, 0.15])
+            with col_btn:
+                if st.button(
+                    f"📌 {topic.title()}",
+                    key=f"topic_{topic}",
+                    use_container_width=True,
+                    help=f"Learn about {topic}"
+                ):
+                    st.session_state.selected_topic = topic
+            with col_num:
+                st.caption(str(i))
+    
+    st.markdown("---")
+    
+    # About Section
+    st.markdown("### 📖 About This App")
+    st.info("""
+    **PyGuide AI** is an interactive Python learning platform built during the **DecodeLab AI Internship**.
+    
+    **Features:**
+    - 20+ Python topics
+    - Real-life examples
+    - Practical code snippets
+    - AI-powered explanations
+    
+    **Creator:** Farhan  
+    **Version:** 1.0.0  
+    **License:** MIT
+    """)
+    
+    st.markdown("---")
+    
+    # Links
+    col_github, col_code = st.columns(2)
+    with col_github:
+        st.link_button(
+            "💻 GitHub Repo",
+            "https://github.com/Farhanillahiclass/simple_ai_chatbot",
+            use_container_width=True
+        )
+    with col_code:
+        st.link_button(
+            "🐍 Python.org",
+            "https://www.python.org",
+            use_container_width=True
+        )
+
+
+# ============================================================================
+# MAIN CONTENT AREA
+# ============================================================================
+
+with col1:
+    st.markdown("### 💬 Chat with PyGuide AI")
+    st.markdown("---")
 
 
 # Initialize Chat History
-with col1:
-    if "messages" not in st.session_state:
-        st.session_state.messages = [
-            {
-                "role": "assistant",
-                "content": """
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {
+            "role": "assistant",
+            "content": """
 🤖 **Welcome to PyGuide AI!**
 
-I'm your intelligent Python learning assistant. I can help you understand:
-- **Basic Concepts**: Variables, Data Types, Strings
+I'm your intelligent Python learning assistant, powered by AI to help you master Python concepts! 
+
+### 📚 What I Can Teach You:
+- **Basics**: Variables, Data Types, Strings, Slicing
 - **Collections**: Lists, Tuples, Dictionaries, Sets
-- **Control Flow**: If statements, Loops
-- **Functions & OOP**: Functions, Classes, Decorators, Generators
-- **Advanced Topics**: Exception Handling, File I/O, JSON, Modules
+- **Control Flow**: If Statements, Loops (for, while)
+- **Functions**: Function definition, Lambda, Decorators, Generators
+- **OOP**: Classes, Inheritance, OOP Principles
+- **Advanced**: Exception Handling, File I/O, JSON, Modules, Map/Filter/Reduce
 
-✨ **How to use me:**
-1. Ask me about any Python concept
-2. I'll provide a definition, real-life example, and code syntax
-3. Type a topic name like "variable", "function", "loop", etc.
+### 💡 How to Use:
+1. **Type a topic** in the chat box (e.g., "variable", "function", "list")
+2. **I'll explain** the concept with a clear definition
+3. **See examples** with real-life use cases
+4. **Get code** snippets you can use immediately
 
-🎯 Start by asking me about any Python topic!
-                """,
-            }
-        ]
+### 🎯 Try These Topics:
+`variable` • `list` • `function` • `loop` • `class` • `dictionary`
 
-    # Display Previous Messages
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+---
 
-    # User Input
-    if user_input := st.chat_input("Ask me about any Python topic..."):
-        # Add user message
-        st.session_state.messages.append(
-            {"role": "user", "content": user_input}
-        )
+**Let's start learning!** What Python topic interests you? 🐍✨
+            """,
+        }
+    ]
+
+# Display Previous Messages with Better Styling
+st.container(height=400, border=False)
+for message in st.session_state.messages:
+    with st.chat_message(message["role"], avatar="🤖" if message["role"] == "assistant" else "👤"):
+        st.markdown(message["content"])
+
+# User Input
+if user_input := st.chat_input(
+    "💬 Ask me about any Python topic... (e.g., 'variable', 'function', 'list')",
+    key="chat_input"
+):
+    # Add user message
+    st.session_state.messages.append(
+        {"role": "user", "content": user_input}
+    )
+    
+    with st.chat_message("user", avatar="👤"):
+        st.markdown(user_input)
+
+    # Process input and generate response
+    with st.chat_message("assistant", avatar="🤖"):
+        result = find_matching_topic(user_input, knowledge_base)
         
-        with st.chat_message("user"):
-            st.markdown(user_input)
-
-        # Process input and generate response
-        with st.chat_message("assistant"):
-            result = find_matching_topic(user_input, knowledge_base)
-            
-            if result:
-                topic, data = result
-                bot_response = format_response(topic, data)
-            else:
-                bot_response = f"""
+        if result:
+            topic, data = result
+            bot_response = format_response(topic, data)
+            st.success("✅ Found topic! Here's the explanation:")
+        else:
+            # Show suggestions
+            suggestions = [t.title() for t in list(knowledge_base.keys())[:8]]
+            bot_response = f"""
 ❌ **Hmm, I don't know about that yet!**
 
-The topic you're asking about isn't in my knowledge base yet. 
+The topic you're asking about isn't in my knowledge base. Let me help you find what you're looking for!
 
-📝 **Available topics include:**
-{', '.join([f'`{topic.title()}`' for topic in list(knowledge_base.keys())[:10]])}
-...and more!
+### 💡 **Suggested Topics:**
+{' • '.join([f'`{s}`' for s in suggestions])}
 
-💡 Try asking about any Python concept from the list above, or check the "Topics Explorer" on the right.
+### 📖 **Pro Tips:**
+- Use simple topic names (e.g., "variable" instead of "what is a variable")
+- Check the sidebar for a complete list of available topics
+- Use the search feature to find topics quickly
+
+Try asking about one of the suggestions above! 🔍
 """
-            
-            st.markdown(bot_response)
-            st.session_state.messages.append(
-                {"role": "assistant", "content": bot_response}
-            )
+            st.warning("Topic not found! Showing suggestions...")
+        
+        st.markdown(bot_response)
+        st.session_state.messages.append(
+            {"role": "assistant", "content": bot_response}
+        )
 
-# Footer
+# ============================================================================
+# FOOTER
+# ============================================================================
+
 st.markdown("---")
-st.markdown(
-    """
-    <div style='text-align: center; color: gray; font-size: 12px;'>
-        <p>PyGuide AI v1.0.0 | Built with ❤️ during DecodeLab AI Internship</p>
-        <p>For more topics and features, visit our <a href='https://github.com'>GitHub Repository</a></p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="footer">
+    <h4>🐍 PyGuide AI v1.0.0</h4>
+    <p>
+        <strong>Smart Python Learning Engine</strong> | 
+        Built with ❤️ during <strong>DecodeLab AI Internship</strong>
+    </p>
+    
+    <p>
+        <a href="https://github.com/Farhanillahiclass/simple_ai_chatbot">📍 GitHub Repository</a> • 
+        <a href="https://www.python.org">🐍 Python.org</a> • 
+        <a href="https://streamlit.io">🎯 Streamlit</a>
+    </p>
+    
+    <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">
+        Created by: Farhan | License: MIT | 
+        Made with Python 🐍 + Streamlit 🎯 + Love ❤️
+    </p>
+</div>
+""", unsafe_allow_html=True)
