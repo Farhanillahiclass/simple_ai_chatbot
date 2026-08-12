@@ -1,0 +1,279 @@
+{
+    "variable": {
+        "definition": "A variable is a container used to store data values in memory. It has a name (identifier) and a value.",
+        "example": "Think of a labeled box 📦 in your room. If you write 'Toys' on the box and put a ball inside, 'Toys' is the variable name and 'ball' is the stored value.",
+        "syntax": "x = 10\nname = 'Alice'\ntemperature = 36.5",
+        "keywords": [
+            "variable",
+            "var",
+            "assign",
+            "assignment"
+        ]
+    },
+    "data types": {
+        "definition": "Data types define the type of value a variable can hold: integers, floats, strings, booleans, lists, tuples, dictionaries, and sets.",
+        "example": "A price tag ($19.99) is a float, your age (20) is an integer, and your name ('Ali') is a string 🏷️.",
+        "syntax": "age = 25          # int\nprice = 19.99     # float\nname = 'Python'   # str\nis_active = True  # bool",
+        "keywords": [
+            "data type",
+            "int",
+            "float",
+            "string",
+            "bool",
+            "type"
+        ]
+    },
+    "list": {
+        "definition": "A list is an ordered, mutable (changeable) collection that allows duplicate elements. Lists are indexed starting from 0.",
+        "example": "A grocery shopping list 📝 where you write items one after another. You can add, remove, or modify items anytime.",
+        "syntax": "fruits = ['apple', 'banana', 'cherry']\nfruits.append('date')\nprint(fruits[0])",
+        "keywords": [
+            "list",
+            "array",
+            "collection",
+            "ordered"
+        ]
+    },
+    "tuple": {
+        "definition": "A tuple is an ordered, immutable (unchangeable) collection. Once created, elements cannot be added, removed, or modified.",
+        "example": "Your GPS latitude and longitude coordinates 📍. Once set, they shouldn't be altered randomly.",
+        "syntax": "coordinates = (24.8607, 67.0011)\nprint(coordinates[0])\n# coordinates[0] = 25  # This will cause an error",
+        "keywords": [
+            "tuple",
+            "immutable",
+            "fixed",
+            "packing"
+        ]
+    },
+    "dictionary": {
+        "definition": "A dictionary stores data in Key-Value pairs. Keys must be unique, and values can be any data type. Dictionaries are unordered and mutable.",
+        "example": "A phone contact book 📱 where a person's name is the 'Key' and their phone number is the 'Value'.",
+        "syntax": "student = {'name': 'Sara', 'grade': 'A', 'marks': 95}\nprint(student['name'])\nstudent['phone'] = '1234567890'",
+        "keywords": [
+            "dictionary",
+            "dict",
+            "key-value",
+            "mapping",
+            "hashmap"
+        ]
+    },
+    "loop": {
+        "definition": "A loop is used to repeat a block of code multiple times until a condition is met. Python has 'for' and 'while' loops.",
+        "example": "An alarm clock ⏰ repeating its chime every morning until you hit snooze.",
+        "syntax": "for i in range(5):\n    print('Hello World')\n\nwhile count < 10:\n    count += 1",
+        "keywords": [
+            "loop",
+            "for",
+            "while",
+            "iteration",
+            "repeat"
+        ]
+    },
+    "function": {
+        "definition": "A function is a reusable block of code that performs a specific task. Functions accept parameters (inputs) and return results (outputs).",
+        "example": "A blender 🥤 in your kitchen. You give it ingredients (inputs), press a button (call function), and get a smoothie (output).",
+        "syntax": "def greet(name):\n    return f'Hello, {name}!'\n\nresult = greet('Alice')\nprint(result)",
+        "keywords": [
+            "function",
+            "def",
+            "method",
+            "callable",
+            "return"
+        ]
+    },
+    "if statement": {
+        "definition": "An if statement allows conditional execution of code based on whether a condition is True or False. Use 'else' and 'elif' for additional conditions.",
+        "example": "A traffic signal light 🚦: IF light is red, STOP; ELSE IF yellow, SLOW; ELSE green, GO.",
+        "syntax": "if score >= 50:\n    print('Passed')\nelif score >= 40:\n    print('Need improvement')\nelse:\n    print('Failed')",
+        "keywords": [
+            "if",
+            "else",
+            "elif",
+            "condition",
+            "conditional"
+        ]
+    },
+    "string": {
+        "definition": "A string is a sequence of characters enclosed in single or double quotes. Strings are immutable and can be indexed and sliced.",
+        "example": "Your name 'Alice' is a string, and a sentence 'Hello World!' is also a string 📄.",
+        "syntax": "name = 'Python'\ngreeting = \"Hello\"\nprint(name[0])  # 'P'\nprint(name[1:4])  # 'yth'",
+        "keywords": [
+            "string",
+            "str",
+            "text",
+            "character",
+            "quote"
+        ]
+    },
+    "list comprehension": {
+        "definition": "List comprehension is a concise way to create a new list by applying an operation to each element of an existing list.",
+        "example": "Instead of writing a loop to square numbers, use: [x**2 for x in range(5)] ⚡",
+        "syntax": "squares = [x**2 for x in range(5)]\neven_numbers = [x for x in range(10) if x % 2 == 0]",
+        "keywords": [
+            "comprehension",
+            "list comp",
+            "concise",
+            "lambda"
+        ]
+    },
+    "exception handling": {
+        "definition": "Exception handling allows you to catch and handle errors gracefully using try-except blocks, preventing your program from crashing.",
+        "example": "Trying to divide by zero causes an error 🚨. With exception handling, you can catch this error and show a friendly message.",
+        "syntax": "try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print('Cannot divide by zero!')\nfinally:\n    print('Operation complete')",
+        "keywords": [
+            "exception",
+            "try",
+            "except",
+            "error",
+            "finally"
+        ]
+    },
+    "class": {
+        "definition": "A class is a blueprint for creating objects. It defines attributes (properties) and methods (functions) that objects will have.",
+        "example": "A Car class 🚗 defines what properties (color, speed) and actions (accelerate, brake) all cars should have.",
+        "syntax": "class Car:\n    def __init__(self, color):\n        self.color = color\n    \n    def honk(self):\n        return 'Honk! Honk!'",
+        "keywords": [
+            "class",
+            "object",
+            "oop",
+            "method",
+            "attribute"
+        ]
+    },
+    "module": {
+        "definition": "A module is a Python file containing functions, classes, and variables. You can import modules to reuse code in your projects.",
+        "example": "The 'math' module 📐 contains useful mathematical functions like sqrt(), sin(), cos() that you can use.",
+        "syntax": "import math\nfrom math import sqrt\nresult = math.sqrt(16)  # 4.0",
+        "keywords": [
+            "module",
+            "import",
+            "library",
+            "package"
+        ]
+    },
+    "list methods": {
+        "definition": "List methods are built-in functions that operate on lists: append(), remove(), sort(), reverse(), pop(), index(), count().",
+        "example": "You have a shopping list and want to add items, remove items, or sort them 📋.",
+        "syntax": "fruits = ['apple', 'banana']\nfruits.append('cherry')\nfruits.remove('banana')\nfruits.sort()\nprint(fruits)",
+        "keywords": [
+            "list method",
+            "append",
+            "remove",
+            "pop",
+            "sort"
+        ]
+    },
+    "string methods": {
+        "definition": "String methods manipulate text: upper(), lower(), replace(), split(), join(), strip(), find(), startswith().",
+        "example": "Converting 'hello' to uppercase 'HELLO' or replacing characters in text 📝.",
+        "syntax": "text = '  Hello World  '\nprint(text.upper())  # '  HELLO WORLD  '\nprint(text.strip())  # 'Hello World'\nprint(text.replace('World', 'Python'))  # '  Hello Python  '",
+        "keywords": [
+            "string method",
+            "upper",
+            "lower",
+            "split",
+            "replace"
+        ]
+    },
+    "lambda": {
+        "definition": "A lambda is a small anonymous function created with 'lambda' keyword. Used for short operations without defining a full function.",
+        "example": "Instead of defining a full function to double a number, use: lambda x: x * 2 ⚡",
+        "syntax": "double = lambda x: x * 2\nprint(double(5))  # 10\n\nsquares = list(map(lambda x: x**2, range(5)))",
+        "keywords": [
+            "lambda",
+            "anonymous",
+            "arrow function"
+        ]
+    },
+    "map filter reduce": {
+        "definition": "map(), filter(), and reduce() are functional programming tools. map() applies a function to all items, filter() selects items meeting a condition.",
+        "example": "Using map to convert all temperatures from Celsius to Fahrenheit 🌡️, or filter to get only positive numbers.",
+        "syntax": "numbers = [1, 2, 3, 4, 5]\neven = list(filter(lambda x: x % 2 == 0, numbers))\nsquared = list(map(lambda x: x**2, numbers))",
+        "keywords": [
+            "map",
+            "filter",
+            "reduce",
+            "functional"
+        ]
+    },
+    "decorator": {
+        "definition": "A decorator is a function that modifies another function or class without permanently changing it. Used with @ symbol.",
+        "example": "A decorator can add logging, authentication, or timing capabilities to functions 🎀.",
+        "syntax": "def my_decorator(func):\n    def wrapper():\n        print('Before')\n        func()\n        print('After')\n    return wrapper\n\n@my_decorator\ndef say_hello():\n    print('Hello!')",
+        "keywords": [
+            "decorator",
+            "@",
+            "wrapper",
+            "enhance"
+        ]
+    },
+    "generator": {
+        "definition": "A generator is a special function that yields values one at a time instead of returning all at once. It saves memory for large datasets.",
+        "example": "Instead of creating a huge list of numbers, a generator produces them one by one 📊.",
+        "syntax": "def count_up(n):\n    i = 0\n    while i < n:\n        yield i\n        i += 1\n\nfor num in count_up(5):\n    print(num)",
+        "keywords": [
+            "generator",
+            "yield",
+            "memory efficient"
+        ]
+    },
+    "file handling": {
+        "definition": "File handling allows you to read, write, and manipulate files. Use 'open()' with modes: 'r' (read), 'w' (write), 'a' (append).",
+        "example": "Reading student records from a file 📄, processing them, and saving results to a new file.",
+        "syntax": "with open('file.txt', 'r') as f:\n    content = f.read()\n\nwith open('output.txt', 'w') as f:\n    f.write('Hello World')",
+        "keywords": [
+            "file",
+            "open",
+            "read",
+            "write",
+            "with"
+        ]
+    },
+    "slicing": {
+        "definition": "Slicing extracts a portion of a sequence (string, list, tuple) using the syntax [start:end:step]. Negative indices count from the end.",
+        "example": "Getting the first 3 letters of 'Python' using slicing: 'Python'[0:3] gives 'Pyt' ✂️",
+        "syntax": "text = 'Hello World'\nprint(text[0:5])  # 'Hello'\nprint(text[-5:])  # 'World'\nprint(text[::2])  # 'HloWrd'",
+        "keywords": [
+            "slice",
+            "subscript",
+            "start",
+            "end",
+            "step"
+        ]
+    },
+    "set": {
+        "definition": "A set is an unordered collection of unique elements. Sets are mutable but cannot contain duplicate values.",
+        "example": "A set of unique student IDs 🎓 where no ID can appear twice.",
+        "syntax": "numbers = {1, 2, 3, 3, 4}\nprint(numbers)  # {1, 2, 3, 4}\nsets.add(5)\nsets.remove(2)",
+        "keywords": [
+            "set",
+            "unique",
+            "unordered",
+            "add",
+            "remove"
+        ]
+    },
+    "json": {
+        "definition": "JSON (JavaScript Object Notation) is a lightweight data format for storing and exchanging structured data. Python can parse JSON using 'json' module.",
+        "example": "Storing user data like name, age, and email in JSON format for APIs and data storage 📊.",
+        "syntax": "import json\ndata = {'name': 'Ali', 'age': 25}\njson_str = json.dumps(data)\ndata = json.loads(json_str)",
+        "keywords": [
+            "json",
+            "parse",
+            "serialize",
+            "dumps",
+            "loads"
+        ]
+    },
+    "oop principles": {
+        "definition": "Object-Oriented Programming includes: Inheritance (extending classes), Polymorphism (multiple forms), Encapsulation (hiding details), Abstraction (hiding complexity).",
+        "example": "A Vehicle class can be inherited by Car and Bike classes 🚗🏍️, each with their own specific behaviors.",
+        "syntax": "class Vehicle:\n    pass\n\nclass Car(Vehicle):\n    def drive(self):\n        return 'Car is driving'",
+        "keywords": [
+            "oop",
+            "inheritance",
+            "polymorphism",
+            "encapsulation"
+        ]
+    }
+}
